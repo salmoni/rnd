@@ -20,11 +20,12 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
+	"time"
 )
 
 func main() {
 	var dataFloat []float64
-	//var dataInt []int
+	var dataInt []int
 
 	programArgs := os.Args
 	fmt.Println("Length of args = ", len(programArgs), programArgs[2])
@@ -41,7 +42,9 @@ func main() {
 	seqDataDist := programArgs[2]
 	fmt.Println("DEBUG: ", seqDataType, seqDataDist, seqNumber)
 
-	rand.Seed(574389)
+	// Set random number generator seed to current date stamp
+	t := time.Now().UnixNano() * 1000
+	rand.Seed(t)
 
 	if seqDataType == "f" {
 		// generate a list of floats
@@ -102,9 +105,52 @@ func main() {
 			}
 		}
 	} else {
-		fmt.Println("DEBUG: Ints")
-		// cannot understand
-		generalError()
+		// Requesting a list in integers
+
+		if len(programArgs) == 6 {
+			seqMin, error := strconv.Atoi(programArgs[3])
+			if error != nil {
+				cannotConvertParameterError()
+			}
+			seqMax, error := strconv.Atoi(programArgs[4])
+			if error != nil {
+				cannotConvertParameterError()
+			}
+			seqRange := seqMax - seqMin
+			if seqRange < 0 {
+				if error != nil {
+					cannotConvertParameterError()
+				}
+			}
+			if seqDataDist == "u" {
+				// Uniform distribution of floats
+				for idx := 0; idx < seqNumber; idx++ {
+					value := rand.Int()
+					dataInt = append(dataInt, value)
+				}
+				printInt(dataInt)
+			} else {
+				// Error - didn't specify distribution
+				incorrectDistributionError()
+			}
+
+		}
+	}
+}
+
+func printInt(data []int) {
+	// Print out ints
+	n := len(data)
+	if n < 1 {
+		os.Exit(0)
+	} else if n == 1 {
+		fmt.Println(data[0])
+	} else {
+		outstr := strconv.Itoa(data[0])
+		for idx := 1; idx < n; idx++ {
+			outstr = outstr + ", " + strconv.Itoa(data[idx])
+		}
+		fmt.Println(outstr)
 	}
 }
 
