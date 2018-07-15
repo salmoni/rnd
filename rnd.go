@@ -1,5 +1,20 @@
 package main
 
+/*
+rnd - a command line program to generate a list of random numbers
+
+rnd [parameters] type distribution number min/stddev max/mean
+
+type = type of data: 'f' for float (64 bit), 'i' for integers
+distribution = 'u' = uniform distribution, 'n' = normal distribution
+number = how many numbers to produce (must be int)
+min/stddev = either minimum value (for uniform distributions) or standard deviation (for normal distributions)
+max/mean = either maximum value (for uniform distributions) or mean (for normal distributions)
+
+(c) 2018 Alan James Salmoni. Released under the MIT licence
+
+*/
+
 import (
 	"fmt"
 	"math/rand"
