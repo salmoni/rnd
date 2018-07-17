@@ -28,8 +28,8 @@ func main() {
 	var dataInt []int
 
 	programArgs := os.Args
-	fmt.Println("Length of args = ", len(programArgs), programArgs[2])
-	if len(programArgs) < 3 {
+	lenArgs := len(programArgs)
+	if lenArgs < 3 {
 		// not enough parameters
 		notEnoughParametersError()
 	}
@@ -50,7 +50,7 @@ func main() {
 		// generate a list of floats
 		fmt.Println("DEBUG: Floats")
 
-		if len(programArgs) == 4 {
+		if lenArgs == 4 {
 			fmt.Println("Doing floats with 3 params")
 			if seqDataDist == "u" {
 				// Uniform distribution of floats
@@ -70,7 +70,7 @@ func main() {
 				// Error - didn't specify distribution
 				incorrectDistributionError()
 			}
-		} else if len(programArgs) == 6 {
+		} else if lenArgs == 6 {
 			seqMin, error := strconv.ParseFloat(programArgs[3], 64)
 			if error != nil {
 				cannotConvertParameterError()
@@ -107,7 +107,7 @@ func main() {
 	} else {
 		// Requesting a list in integers
 
-		if len(programArgs) == 6 {
+		if lenArgs == 6 {
 			seqMin, error := strconv.Atoi(programArgs[3])
 			if error != nil {
 				cannotConvertParameterError()
@@ -173,8 +173,13 @@ func printFloat(data []float64) {
 	os.Exit(0)
 }
 
+func showHelp() {
+	fmt.Println("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]")
+	os.Exit(3)
+}
+
 func notEnoughParametersError() {
-	fmt.Println("Error: Not enough parameters")
+	fmt.Println("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]")
 	os.Exit(3)
 }
 
