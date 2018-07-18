@@ -40,7 +40,6 @@ func main() {
 
 	seqDataType := programArgs[1]
 	seqDataDist := programArgs[2]
-	fmt.Println("DEBUG: ", seqDataType, seqDataDist, seqNumber)
 
 	// Set random number generator seed to current date stamp
 	t := time.Now().UnixNano() * 1000
@@ -48,7 +47,6 @@ func main() {
 
 	if seqDataType == "f" {
 		// generate a list of floats
-		fmt.Println("DEBUG: Floats")
 
 		if lenArgs == 4 {
 			fmt.Println("Doing floats with 3 params")
@@ -71,11 +69,11 @@ func main() {
 				incorrectDistributionError()
 			}
 		} else if lenArgs == 6 {
-			seqMin, error := strconv.ParseFloat(programArgs[3], 64)
+			seqMin, error := strconv.ParseFloat(programArgs[4], 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
-			seqMax, error := strconv.ParseFloat(programArgs[4], 64)
+			seqMax, error := strconv.ParseFloat(programArgs[5], 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
@@ -95,7 +93,7 @@ func main() {
 			} else if seqDataDist == "n" {
 				// normal distribution of floats
 				for idx := 0; idx < seqNumber; idx++ {
-					value := (rand.NormFloat64() * seqRange) + seqMin
+					value := (rand.NormFloat64() * seqMin) + seqMax
 					dataFloat = append(dataFloat, value)
 				}
 				printFloat(dataFloat)
@@ -105,14 +103,14 @@ func main() {
 			}
 		}
 	} else {
-		// Requesting a list in integers
+		// Requesting a list of integers
 
 		if lenArgs == 6 {
-			seqMin, error := strconv.Atoi(programArgs[3])
+			seqMin, error := strconv.ParseFloat(programArgs[4], 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
-			seqMax, error := strconv.Atoi(programArgs[4])
+			seqMax, error := strconv.ParseFloat(programArgs[5], 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
@@ -123,10 +121,18 @@ func main() {
 				}
 			}
 			if seqDataDist == "u" {
-				// Uniform distribution of floats
+				// Uniform distribution of ints
 				for idx := 0; idx < seqNumber; idx++ {
-					value := rand.Int()
-					dataInt = append(dataInt, value)
+					value := (rand.Float64() * seqRange) + seqMin
+					dataInt = append(dataInt, int(value))
+				}
+				printInt(dataInt)
+
+			} else if seqDataDist == "n" {
+				// normal distribution of ints
+				for idx := 0; idx < seqNumber; idx++ {
+					value := (rand.NormFloat64() * seqMin) + seqMax
+					dataInt = append(dataInt, int(value))
 				}
 				printInt(dataInt)
 			} else {
