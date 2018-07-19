@@ -49,7 +49,6 @@ func main() {
 		// generate a list of floats
 
 		if lenArgs == 4 {
-			fmt.Println("Doing floats with 3 params")
 			if seqDataDist == "u" {
 				// Uniform distribution of floats
 				for idx := 0; idx < seqNumber; idx++ {
