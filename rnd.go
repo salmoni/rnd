@@ -97,13 +97,20 @@ func main() {
 					dataFloat = append(dataFloat, value)
 				}
 				printFloat(dataFloat)
+			} else if seqDataDist == "e" {
+				// exponentially distributed ints
+				for idx := 0; idx < seqNumber; idx++ {
+					value := (rand.ExpFloat64() * seqMin) + seqMax
+					dataFloat = append(dataFloat, value)
+				}
+				printFloat(dataFloat)
 			} else {
 				// Error - didn't specify distribution
 				incorrectDistributionError()
 			}
 		}
 	} else {
-		// Requesting a list of integers
+		// Generate a list of integers
 
 		if lenArgs == 6 {
 			seqMin, error := strconv.ParseFloat(programArgs[4], 64)
@@ -132,6 +139,13 @@ func main() {
 				// normal distribution of ints
 				for idx := 0; idx < seqNumber; idx++ {
 					value := (rand.NormFloat64() * seqMin) + seqMax
+					dataInt = append(dataInt, int(value))
+				}
+				printInt(dataInt)
+			} else if seqDataDist == "e" {
+				// exponentially distributed ints
+				for idx := 0; idx < seqNumber; idx++ {
+					value := rand.ExpFloat64() / seqRange
 					dataInt = append(dataInt, int(value))
 				}
 				printInt(dataInt)
