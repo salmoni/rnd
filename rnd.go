@@ -108,7 +108,7 @@ func main() {
 				incorrectDistributionError()
 			}
 		}
-	} else {
+	} else if seqDataType == "i" {
 		// Generate a list of integers
 
 		if lenArgs == 6 {
@@ -154,6 +154,8 @@ func main() {
 			}
 
 		}
+	} else {
+		incorrectTypeError()
 	}
 }
 
@@ -193,36 +195,36 @@ func printFloat(data []float64) {
 }
 
 func showHelp() {
-	fmt.Println("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]")
+	os.Stderr.WriteString("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]\n")
 	os.Exit(3)
 }
 
 func notEnoughParametersError() {
-	fmt.Println("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]")
+	os.Stderr.WriteString("Missing parameters: type (float/int) distribution (uniform/normal) number [min/stdev] [max/mean]\n")
 	os.Exit(3)
 }
 
 func generalError() {
-	fmt.Println("General error")
+	os.Stderr.WriteString("General error\n")
 	os.Exit(3)
 }
 
 func incorrectNumberError() {
-	fmt.Println("Error: Number not specified properly")
+	os.Stderr.WriteString("Error: Number not specified properly\n")
 	os.Exit(3)
 }
 
 func incorrectDistributionError() {
-	fmt.Println("Error: Need to specify uniform or normal distribution")
+	os.Stderr.WriteString("Error: Need to specify uniform or normal distribution\n")
 	os.Exit(3)
 }
 
 func cannotConvertParameterError() {
-	fmt.Println("Error: Cannot convert parameter (min or max)")
+	os.Stderr.WriteString("Error: Cannot convert parameter (min or max)\n")
 	os.Exit(3)
 }
 
 func incorrectTypeError() {
-	fmt.Println("Error: First parameter is 2 letters: either 'f' for floats, 'i' for ints, then 'u' for uniform and 'n' for normal")
+	os.Stderr.WriteString("Error: First parameter is 2 letters: either 'f' for floats, 'i' for ints, then 'u' for uniform and 'n' for normal\n")
 	os.Exit(3)
 }
