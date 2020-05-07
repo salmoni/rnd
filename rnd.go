@@ -25,7 +25,6 @@ import (
 
 func main() {
 	var dataFloat []float64
-	var dataInt []int
 
 	programArgs := os.Args
 	lenArgs := len(programArgs)
@@ -112,11 +111,12 @@ func main() {
 		// Generate a list of integers
 
 		if lenArgs == 6 {
-			seqMin, error := strconv.ParseFloat(programArgs[4], 64)
+			fmt.Println("6 parameters")
+			seqMin, error := strconv.ParseInt(programArgs[4], 10, 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
-			seqMax, error := strconv.ParseFloat(programArgs[5], 64)
+			seqMax, error := strconv.ParseInt(programArgs[5], 10, 64)
 			if error != nil {
 				cannotConvertParameterError()
 			}
@@ -126,36 +126,52 @@ func main() {
 					cannotConvertParameterError()
 				}
 			}
-			if seqDataDist == "u" {
-				// Uniform distribution of ints
-				for idx := 0; idx < seqNumber; idx++ {
-					value := (rand.Float64() * seqRange) + seqMin
-					dataInt = append(dataInt, int(value))
-				}
-				printInt(dataInt)
-
-			} else if seqDataDist == "n" {
-				// normal distribution of ints
-				for idx := 0; idx < seqNumber; idx++ {
-					value := (rand.NormFloat64() * seqMin) + seqMax
-					dataInt = append(dataInt, int(value))
-				}
-				printInt(dataInt)
-			} else if seqDataDist == "e" {
-				// exponentially distributed ints
-				for idx := 0; idx < seqNumber; idx++ {
-					value := rand.ExpFloat64() / seqRange
-					dataInt = append(dataInt, int(value))
-				}
-				printInt(dataInt)
-			} else {
-				// Error - didn't specify distribution
-				incorrectDistributionError()
-			}
-
+			getInts(seqDataDist, seqNumber, seqRange, seqMin, seqMax)
+		} else if lenArgs == 4 {
+			fmt.Println("4 parameters")
+			// Assume 0 to 100 as minimum and maximum
+			var seqMin int64 = 15
+			var seqMax int64 = 50
+			seqRange := seqMax - seqMin
+			getInts(seqDataDist, seqNumber, seqRange, seqMin, seqMax)
+		} else {
+			incorrectTypeError()
 		}
+	}
+}
+
+func getInts(seqDataDist string, seqNumber int, seqRange int64, seqMin int64, seqMax int64) {
+	fmt.Println("Print out ints")
+	var dataInt []int
+
+	if seqDataDist == "u" {
+		// Uniform distribution of ints
+		for idx := 0; idx < seqNumber; idx++ {
+			value := (rand.Float64() * float64(seqRange)) + float64(seqMin)
+			dataInt = append(dataInt, int(value))
+		}
+		printInt(dataInt)
+
+	} else if seqDataDist == "n" {
+		// normal distribution of ints
+		fmt.Println("Normal")
+		for idx := 0; idx < seqNumber; idx++ {
+			value := (rand.NormFloat64() * float64(seqMin)) + float64(seqMax)
+			dataInt = append(dataInt, int(value))
+		}
+		printInt(dataInt)
+
+	} else if seqDataDist == "e" {
+		// exponentially distributed ints
+		for idx := 0; idx < seqNumber; idx++ {
+			value := rand.ExpFloat64() / float64(seqRange)
+			dataInt = append(dataInt, int(value))
+		}
+		printInt(dataInt)
+
 	} else {
-		incorrectTypeError()
+		// Error - didn't specify distribution
+		incorrectDistributionError()
 	}
 }
 
