@@ -40,7 +40,7 @@ func main() {
 	seqDataType := programArgs[1]
 	seqDataDist := programArgs[2]
 
-	// Set random number generator seed to current date stamp
+	// Set random number generator seed to current time stamp
 	t := time.Now().UnixNano() * 1000
 	rand.Seed(t)
 
